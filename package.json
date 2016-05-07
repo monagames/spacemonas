@@ -1,0 +1,27 @@
+{
+  "name": "cocostest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jspm": "^0.16.34",
+    "typings": "^0.8.1"
+  },
+  "jspm": {
+    "dependencies": {
+      "cocos2d/cocos2d-html5": "github:cocos2d/cocos2d-html5@master",
+      "phaser": "github:photonstorm/phaser@^2.4.7",
+      "ts": "github:frankwallis/plugin-typescript@^4.0.8"
+    },
+    "devDependencies": {
+      "ts-runtime": "npm:babel-runtime@^5.8.24",
+      "typescript": "npm:typescript@^1.6.2"
+    }
+  }
+}

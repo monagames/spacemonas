@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "system",
+        "target": "es5",
+        "sourceMap": true,
+        "outDir": "built",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noImplicitReturns": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "exclude": ["node_modules", "jspm_packages",
+        "typings/main.d.ts", "typings/main"]
+}

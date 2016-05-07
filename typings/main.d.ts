@@ -1,0 +1,1 @@
+/// <reference path="../jspm_packages/github/photonstorm/phaser@2.4.7/typescript/phaser.d.ts" />
