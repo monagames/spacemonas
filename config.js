@@ -17,7 +17,6 @@ System.config({
   },
 
   map: {
-    "cocos2d/cocos2d-html5": "github:cocos2d/cocos2d-html5@master",
     "phaser": "github:photonstorm/phaser@2.4.7",
     "ts": "github:frankwallis/plugin-typescript@4.0.8",
     "ts-runtime": "npm:babel-runtime@5.8.38",

@@ -1,5 +1,5 @@
 {
-  "name": "cocostest",
+  "name": "space-monas",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,7 +15,6 @@
   },
   "jspm": {
     "dependencies": {
-      "cocos2d/cocos2d-html5": "github:cocos2d/cocos2d-html5@master",
       "phaser": "github:photonstorm/phaser@^2.4.7",
       "ts": "github:frankwallis/plugin-typescript@^4.0.8"
     },
