@@ -21,12 +21,13 @@ export class Game extends Phaser.State {
         this.load.image('ground', 'assets/platform.png');
         this.load.image('diamond', 'assets/diamond.png');
         this.load.spritesheet('dude', 'assets/astro.png', 32, 48);
-        this.load.audio("get-star", "assets/key.wav");
         this.load.image('sky', 'assets/space.jpg');
         this.load.image('platform2', 'assets/platform 2.png');
         this.load.image('ufo', "assets/ufo.png");
         this.load.image('star', 'assets/star-sheet.png');
-        this.load.audio("explosion", "assets/explosion.wav");
+        
+        this.load.audio("get-star", "assets/key.ogg");
+        this.load.audio("explosion", "assets/explosion.ogg");
     }
 
     create() {
