@@ -1,17 +1,79 @@
-import {Phaser} from "phaser";
+import {Phaser as ph} from "phaser";
 
 let platforms;
 let diamonds;
-let player: Phaser.Sprite;
-let ufo: Phaser.Sprite;
-let cursors: Phaser.CursorKeys;
+let player: ph.Sprite;
+let ufo: ph.Sprite;
+let cursors: SimpleCursor;
 let score: number = 0;
-let textScore: Phaser.Text;
-let getDiamondSound: Phaser.Sound;
-let explosion: Phaser.Sound;
+let textScore: ph.Text;
+let getDiamondSound: ph.Sound;
+let explosion: ph.Sound;
 let vaIzquierda = true;
 
-export class Game extends Phaser.State {
+function loadAudio(loader: ph.Loader, id: string, url: string) {
+    loader.audio(id, [url + ".ogg", url + ".m4a", url + ".mp3"]);
+}
+
+
+class SimpleCursor {
+    private cursors: ph.CursorKeys;
+    private game: ph.Game;
+    private threshold = 0;
+
+    constructor(game: ph.Game) {
+        this.cursors = game.input.keyboard.createCursorKeys();
+        this.game = game;
+    }
+
+    get up() {
+        return this.cursors.up.isDown || this.rightPointer.isDown;
+    }
+
+    get left() {
+        let p = this.leftPointer;
+        return this.cursors.left.isDown || ((p.isDown && p.positionDown.x - p.position.x > this.threshold));
+    }
+
+    get right() {
+        let p = this.leftPointer;
+        return this.cursors.right.isDown || (p.isDown && (p.position.x - p.positionDown.x > this.threshold));
+    }
+
+    get leftPointer(): ph.Pointer {
+        let p1 = this.game.input.pointer1;
+        let p2 = this.game.input.pointer2;
+
+        if (this.isInLeftArea(p1))
+            return p1;
+        else if (this.isInLeftArea(p2))
+            return p2;
+        else
+            return p1;
+    }
+
+    get rightPointer(): ph.Pointer {
+        let p1 = this.game.input.pointer1;
+        let p2 = this.game.input.pointer2;
+
+        if (this.isInRightArea(p1))
+            return p1;
+        else if (this.isInRightArea(p2))
+            return p2;
+        else
+            return p2;
+    }
+
+    isInLeftArea(pointer: ph.Pointer) {
+        return pointer.positionDown.y > 0 && pointer.positionDown.x < this.game.world.width / 2;
+    }
+
+    isInRightArea(pointer: ph.Pointer) {
+        return pointer.positionDown.y > 0 && pointer.positionDown.x >= this.game.world.width / 2;
+    }
+}
+
+export class Game extends ph.State {
 
     constructor() {
         super();
@@ -25,14 +87,14 @@ export class Game extends Phaser.State {
         this.load.image('platform2', 'assets/platform 2.png');
         this.load.image('ufo', "assets/ufo.png");
         this.load.image('star', 'assets/star-sheet.png');
-        
-        this.load.audio("get-star", "assets/key.ogg");
-        this.load.audio("explosion", "assets/explosion.ogg");
+
+        loadAudio(this.load, "get-star", "assets/key");
+        loadAudio(this.load, "explosion", "assets/explosion");
     }
 
     create() {
-        cursors = this.input.keyboard.createCursorKeys();
-        this.physics.startSystem(Phaser.Physics.ARCADE);
+        cursors = new SimpleCursor(this.game);
+        this.physics.startSystem(ph.Physics.ARCADE);
         this.add.sprite(0, 0, "sky");
         this.add.sprite(0, 0, "star");
 
@@ -113,12 +175,12 @@ export class Game extends Phaser.State {
 
 
         if (player.body.touching.down) {
-            if (cursors.left.isDown) {
+            if (cursors.left) {
                 player.body.velocity.x = -150;
                 vaIzquierda = true;
                 player.animations.play("left");
             }
-            else if (cursors.right.isDown) {
+            else if (cursors.right) {
                 player.body.velocity.x = 150;
                 vaIzquierda = false;
                 player.animations.play("right");
@@ -133,13 +195,13 @@ export class Game extends Phaser.State {
             }
         }
         else {
-            if (cursors.left.isDown) {
+            if (cursors.left) {
                 if (player.body.velocity.x > -200)
                     player.body.velocity.x -= 5;
                 vaIzquierda = true;
                 player.animations.play("air-left");
             }
-            else if (cursors.right.isDown) {
+            else if (cursors.right) {
                 if (player.body.velocity.x < 200)
                     player.body.velocity.x += 5;
                 vaIzquierda = false;
@@ -148,7 +210,7 @@ export class Game extends Phaser.State {
 
         }
 
-        if (cursors.up.isDown) {
+        if (cursors.up) {
             player.body.velocity.y = -150;
             if (vaIzquierda) {
                 player.animations.play("air-left");
@@ -161,14 +223,14 @@ export class Game extends Phaser.State {
 
     }
 
-    collectDiamond(player: Phaser.Sprite, diamond: Phaser.Sprite) {
+    collectDiamond(player: ph.Sprite, diamond: ph.Sprite) {
         diamond.kill();
         score = score + 20;
         textScore.text = `${score} PUNTOS`;
         getDiamondSound.play();
     }
 
-    die(player: Phaser.Sprite, ufo: Phaser.Sprite) {
+    die(player: ph.Sprite, ufo: ph.Sprite) {
         player.kill();
         explosion.play(undefined, 0.5);
 
