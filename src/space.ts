@@ -88,18 +88,23 @@ export class Game extends ph.State {
         this.load.image('ufo', "assets/ufo.png");
         this.load.image('star', 'assets/star-sheet.png');
 
-        loadAudio(this.load, "get-star", "assets/key");
-        loadAudio(this.load, "explosion", "assets/explosion");
+        this.load.audio("get-star", "assets/key.mp3");
+        this.load.audio("explosion", "assets/explosion.mp3");
+        //loadAudio(this.load, "get-star", "assets/key");
+        //loadAudio(this.load, "explosion", "assets/explosion");
     }
 
+
     create() {
+        getDiamondSound = this.add.audio("get-star");
+        explosion = this.add.audio("explosion");
+        this.sound.setDecodedCallback([getDiamondSound, explosion], this.start, this);        
+       
         cursors = new SimpleCursor(this.game);
         this.physics.startSystem(ph.Physics.ARCADE);
         this.add.sprite(0, 0, "sky");
         this.add.sprite(0, 0, "star");
 
-        getDiamondSound = this.add.audio("get-star");
-        explosion = this.add.audio("explosion", 0.5);
         textScore = this.add.text(16, 16, "0 PUNTOS", { fontSize: '32px', fill: '#FFF' });
         platforms = this.add.group();
         platforms.enableBody = true;
@@ -147,6 +152,11 @@ export class Game extends ph.State {
             diamond.body.bounce.y = 0.2 + 0.3 * Math.random();
             diamond.body.bounce.x = 0.2 + 0.3 * Math.random();
         }
+        
+    }
+    
+    start() {
+        alert("Decoded");
     }
 
     update() {

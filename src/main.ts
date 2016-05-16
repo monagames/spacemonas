@@ -17,6 +17,7 @@
 //     return context;
 // }
 
+
 // window.PhaserGlobal = {
 //     audioContext: createAudioContext(44100)
 // };
@@ -26,6 +27,27 @@
 import {Phaser} from "phaser";
 import {Game} from "./space";
 
-let game = new Phaser.Game(800, 600, Phaser.AUTO, "content");
-game.state.add("game", Game);
-game.state.start("game");
+class Boot extends Phaser.State {
+    init() {
+        // make the game occuppy all available space, but respecting
+        // aspect ratio – with letterboxing if needed
+        this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.game.scale.pageAlignHorizontally = true;
+        this.game.scale.pageAlignVertically = true;
+    }
+
+    create() {
+        this.game.state.start("game");
+    }
+
+}
+
+function start() {
+    let game = new Phaser.Game(800, 600, Phaser.AUTO);
+    game.state.add("boot", Boot);
+    game.state.add("game", Game);
+    game.state.start("boot");
+}
+
+document.querySelector(".overlay").style.display = "none";
+start();
