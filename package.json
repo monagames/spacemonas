@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "http-server",
-    "install": "jspm bundle src/main build.js --minify"
+    "build": "jspm bundle src/main build.js --minify"
   },
   "author": "",
   "license": "ISC",

@@ -11,11 +11,6 @@ let getDiamondSound: ph.Sound;
 let explosion: ph.Sound;
 let vaIzquierda = true;
 
-function loadAudio(loader: ph.Loader, id: string, url: string) {
-    loader.audio(id, [url + ".ogg", url + ".m4a", url + ".mp3"]);
-}
-
-
 class SimpleCursor {
     private cursors: ph.CursorKeys;
     private game: ph.Game;
@@ -75,31 +70,36 @@ class SimpleCursor {
 
 export class Game extends ph.State {
 
+    jetpack: ph.Sound;
+    jetpackOn: boolean;
+
     constructor() {
         super();
     }
 
-    preload() {
-        this.load.image('ground', 'assets/platform.png');
-        this.load.image('diamond', 'assets/diamond.png');
-        this.load.spritesheet('dude', 'assets/astro.png', 32, 48);
-        this.load.image('sky', 'assets/space.jpg');
-        this.load.image('platform2', 'assets/platform 2.png');
-        this.load.image('ufo', "assets/ufo.png");
-        this.load.image('star', 'assets/star-sheet.png');
+    init() {
+        this.game.sound.boot();
+    }
 
-        this.load.audio("get-star", "assets/key.mp3");
-        this.load.audio("explosion", "assets/explosion.mp3");
-        //loadAudio(this.load, "get-star", "assets/key");
-        //loadAudio(this.load, "explosion", "assets/explosion");
+    preload() {
     }
 
 
     create() {
+        this.jetpackOn = false;
+        this.jetpack = this.add.sound("jetpack", 0.5, true);
+        this.jetpack.allowMultiple = false;
+        this.jetpack.addMarker("jetpack-start", 0, 0.5, 0.5, false);
+        this.jetpack.addMarker("jetpack-loop", 0.5, 1, 0.5, true);
+
+        let silence = this.add.audio("silence");
         getDiamondSound = this.add.audio("get-star");
         explosion = this.add.audio("explosion");
-        this.sound.setDecodedCallback([getDiamondSound, explosion], this.start, this);        
-       
+
+        this.game.sound.volume = 10;
+        this.game.input.onDown.addOnce(() => silence.play());
+        //this.sound.setDecodedCallback([getDiamondSound, explosion], this.start, this);        
+
         cursors = new SimpleCursor(this.game);
         this.physics.startSystem(ph.Physics.ARCADE);
         this.add.sprite(0, 0, "sky");
@@ -152,11 +152,7 @@ export class Game extends ph.State {
             diamond.body.bounce.y = 0.2 + 0.3 * Math.random();
             diamond.body.bounce.x = 0.2 + 0.3 * Math.random();
         }
-        
-    }
-    
-    start() {
-        alert("Decoded");
+
     }
 
     update() {
@@ -209,18 +205,31 @@ export class Game extends ph.State {
                 if (player.body.velocity.x > -200)
                     player.body.velocity.x -= 5;
                 vaIzquierda = true;
-                player.animations.play("air-left");
+                if (this.jetpackOn)
+                    player.animations.play("air-left");
+                else
+                    player.frame = 16;
             }
             else if (cursors.right) {
                 if (player.body.velocity.x < 200)
                     player.body.velocity.x += 5;
                 vaIzquierda = false;
-                player.animations.play("air-right");
+                if (this.jetpackOn)
+                    player.animations.play("air-right");
+                else
+                    player.frame = 22;
             }
 
         }
 
         if (cursors.up) {
+            if (!this.jetpackOn) {
+                this.jetpackOn = true;
+                this.jetpack.play("jetpack-start").onStop.addOnce(() => {
+                    if (this.jetpackOn)
+                        this.jetpack.play("jetpack-loop")
+                });
+            }
             player.body.velocity.y = -150;
             if (vaIzquierda) {
                 player.animations.play("air-left");
@@ -229,6 +238,14 @@ export class Game extends ph.State {
                 player.animations.play("air-right");
             }
 
+        }
+        else {
+            if (this.jetpackOn) {
+                this.jetpackOn = false;
+                this.jetpack.fadeOut(0.25);
+                player.animations.stop();
+                player.frame = vaIzquierda ? 16 : 22;
+            }
         }
 
     }
