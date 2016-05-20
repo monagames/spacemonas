@@ -17,16 +17,17 @@ class Boot extends Phaser.State {
     }
 
     create() {
-        let intro = this.game.add.sprite(0,0,"intro");
+        let intro = this.game.add.sprite(0, 0, "intro");
         intro.height = this.game.height;
         intro.width = this.game.width;
-        
+
         this.game.state.start("loader", false);
     }
 
 }
 
 function start() {
+    document.querySelector(".overlay").style.display = "none";
     let game = new Phaser.Game(800, 600, Phaser.AUTO);
     game.state.add("boot", Boot);
     game.state.add("loader", Loader);
@@ -34,5 +35,9 @@ function start() {
     game.state.start("boot");
 }
 
-document.querySelector(".overlay").style.display = "none";
-start();
+if (document.readyState === "complete") {
+    start();
+}
+else {
+    window.onload = start;
+}
