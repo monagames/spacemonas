@@ -136,8 +136,6 @@ export class Astro extends ph.Sprite {
         else {
             this.space.lasers.add(new Laser(this.space, this.x + this.width, this.y + this.height / 2, 500));
         }
-        
-        this.space.game.debug.text(this.space.lasers.total.toString(), 200, 200, "#FFF");
     }
 
     collectDiamond(player: ph.Sprite, diamond: ph.Sprite) {
