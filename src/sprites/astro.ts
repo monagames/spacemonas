@@ -131,10 +131,10 @@ export class Astro extends ph.Sprite {
     shoot() {
         this.laserSound.play();
         if (this.vaIzquierda) {
-            this.space.lasers.add(new Laser(this.space, this.x, this.y + this.height / 2, -500)).anchor.x = 1;            
+            this.space.lasers.add(new Laser(this.space, this.x, this.y + this.height / 2, -1000)).anchor.x = 1;            
         }
         else {
-            this.space.lasers.add(new Laser(this.space, this.x + this.width, this.y + this.height / 2, 500));
+            this.space.lasers.add(new Laser(this.space, this.x + this.width, this.y + this.height / 2,1000));
         }
     }
 

@@ -1,7 +1,7 @@
 import {Phaser} from "phaser";
 import {Loader} from "./loader";
 import {Phase1} from "src/phases/phase1";
-import * as WebFont from "webfont";
+import * as WebFont from "webfontloader";
 
 class Boot extends Phaser.State {
     init() {
