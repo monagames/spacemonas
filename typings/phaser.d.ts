@@ -1,12 +1,8 @@
-/// <reference path="../jspm_packages/github/photonstorm/phaser@2.4.7/typescript/pixi.d.ts" />
-/// <reference path="../jspm_packages/github/photonstorm/phaser@2.4.7/typescript/p2.d.ts" />
+/// <reference path="../jspm_packages/github/photonstorm/phaser@2.4.8/typescript/pixi.d.ts" />
+/// <reference path="../jspm_packages/github/photonstorm/phaser@2.4.8/typescript/p2.d.ts" />
 
-// Type definitions for Phaser 2.4.7 - 22nd April 2016
+// Type definitions for Phaser 2.4.8 - 16th May 2016
 // Project: https://github.com/photonstorm/phaser
-
-// declare module "phaser" {
-//     export = Phaser;
-// }
 
 declare module "phaser" {
 
@@ -599,6 +595,7 @@ declare module "phaser" {
             position: Phaser.Point;
             roundPx: boolean;
             scale: Phaser.Point;
+            shakeIntensity: number;
             onFadeComplete: Phaser.Signal;
             onFlashComplete: Phaser.Signal;
             onShakeComplete: Phaser.Signal;
@@ -1351,6 +1348,7 @@ declare module "phaser" {
             config: IGameConfig;
             context: CanvasRenderingContext2D;
             count: number;
+            create: Phaser.Create;
             debug: Phaser.Utils.Debug;
             device: Phaser.Device;
             forceSingleUpdate: boolean;
@@ -1687,7 +1685,7 @@ declare module "phaser" {
             addToHash(child: PIXI.DisplayObject): boolean;
             bringToTop(child: any): any;
             callAll(method: string, context: any, ...parameters: any[]): void;
-            callAllExists(callback: Function, existsValue: boolean, ...parameters: any[]): void;
+            callAllExists(callback: string, existsValue: boolean, ...parameters: any[]): void;
             callbackFromArray(child: any, callback: Function, length: number): void;
             checkAll(key: string[], value: any, checkAlive?: boolean, checkVisible?: boolean, force?: boolean): boolean;
             checkProperty(child: any, key: string[], value: any, force?: boolean): boolean;
@@ -2845,14 +2843,14 @@ declare module "phaser" {
                 accelerateToObject(displayObject: any, destination: any, speed?: number, xSpeedMax?: number, ySpeedMax?: number): number;
                 accelerateToPointer(displayObject: any, pointer?: Phaser.Pointer, speed?: number, xSpeedMax?: number, ySpeedMax?: number): number;
                 accelerateToXY(displayObject: any, x: number, y: number, speed?: number, xSpeedMax?: number, ySpeedMax?: number): number;
-                angleBetween(source: any, target: any): number;
-                angleToPointer(displayObject: any, pointer?: Phaser.Pointer): number;
-                angleToXY(displayObject: any, x: number, y: number): number;
-                collide(object1: any, object2: any, collideCallback?: Function, processCallback?: Function, callbackContext?: any): boolean;
+                angleBetween(source: any, target: any, world?: boolean): number;
+                angleToPointer(displayObject: any, pointer?: Phaser.Pointer, world?: boolean): number;
+                angleToXY(displayObject: any, x: number, y: number, world?: boolean): number;
+                collide(object1: any, object2?: any, collideCallback?: Function, processCallback?: Function, callbackContext?: any): boolean;
                 computeVelocity(axis: number, body: Phaser.Physics.Arcade.Body, velocity: number, acceleration: number, drag: number, max?: number): number;
-                distanceBetween(source: any, target: any): number;
-                distanceToPointer(displayObject: any, pointer?: Phaser.Pointer): number;
-                distanceToXY(displayObject: any, x: number, y: number): number;
+                distanceBetween(source: any, target: any, world?: boolean): number;
+                distanceToPointer(displayObject: any, pointer?: Phaser.Pointer, world?: boolean): number;
+                distanceToXY(displayObject: any, x: number, y: number, world?: boolean): number;
                 enable(object: any, children?: Boolean): void;
                 enableBody(object: any): void;
                 getObjectsAtLocation(x: number, y: number, group: Phaser.Group, callback?: (callbackArg: any, object: any) => void, callbackContext?: any, callbackArg?: any): Sprite[];
@@ -2937,6 +2935,7 @@ declare module "phaser" {
                     type: number;
                     wasTouching: FaceChoices;
                     width: number;
+                    worldBounce: Phaser.Point;
                     velocity: Phaser.Point;
                     x: number;
                     y: number;
@@ -3526,6 +3525,13 @@ declare module "phaser" {
         }
 
         module Plugin {
+
+            class SaveCPU extends Phaser.Plugin {
+
+                renderOnFPS: number;
+                renderOnPointerChange: boolean;
+                forceRender(): void;
+            }
 
             class AStar extends Phaser.Plugin {
 
@@ -4820,7 +4826,7 @@ declare module "phaser" {
             preUpdate(): void;
             renderTabLine(line: string, x: number, y: number, fill?: boolean): void;
             setShadow(x?: number, y?: number, color?: any, blur?: number, shadowStroke?: boolean, shadowFill?: boolean): Phaser.Text;
-            setStyle(style?: PhaserTextStyle): Phaser.Text;
+            setStyle(style?: PhaserTextStyle, update?: boolean): Phaser.Text;
             setText(text: string): Phaser.Text;
             setTextBounds(x?: number, y?: number, width?: number, height?: number): Phaser.Text;
             update(): void;
@@ -5449,7 +5455,8 @@ declare module "phaser" {
             wrap(sprite: any, padding?: number, useBounds?: boolean, horizontal?: boolean, vertical?: boolean): void;
 
         }
+
     }
 
-
 }
+

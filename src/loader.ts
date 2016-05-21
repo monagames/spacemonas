@@ -1,5 +1,5 @@
 import {Phaser as ph} from "phaser";
-import "phaser/filters/pixi/Plasma";
+//import "phaser/filters/pixi/Plasma";
 
 export class Loader extends ph.State {
 

@@ -17,7 +17,7 @@ System.config({
   },
 
   map: {
-    "phaser": "github:photonstorm/phaser@2.4.7",
+    "phaser": "github:photonstorm/phaser@2.4.8",
     "ts": "github:frankwallis/plugin-typescript@4.0.8",
     "ts-runtime": "npm:babel-runtime@5.8.38",
     "typescript": "npm:typescript@1.8.10",
