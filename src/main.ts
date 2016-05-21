@@ -1,6 +1,6 @@
 import {Phaser} from "phaser";
 import {Loader} from "./loader";
-import {Game} from "./space";
+import {Phase1} from "src/phases/phase1";
 
 class Boot extends Phaser.State {
     init() {
@@ -27,11 +27,11 @@ class Boot extends Phaser.State {
 }
 
 function start() {
-    document.querySelector(".overlay").style.display = "none";
+    (document.querySelector(".overlay") as any).style.display = "none";
     let game = new Phaser.Game(800, 600, Phaser.AUTO);
     game.state.add("boot", Boot);
     game.state.add("loader", Loader);
-    game.state.add("game", Game);
+    game.state.add("game", Phase1);
     game.state.start("boot");
 }
 

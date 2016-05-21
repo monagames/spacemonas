@@ -1,5 +1,6 @@
+import {Space} from "src/phases/space";
 import {Phaser as ph} from "phaser";
-import {SimpleCursor} from "./simpleCursor";
+import {SimpleCursor} from "./cursor";
 
 export class Astro extends ph.Sprite {
     private jetpack: ph.Sound;
@@ -7,29 +8,37 @@ export class Astro extends ph.Sprite {
     private cursors: SimpleCursor;
     private vaIzquierda: boolean;
 
-    constructor(game: ph.Game, key: string) {
-        super(game, 32, game.world.height - 150, key);
+    constructor(private space: Space, x: number, y: number, key?: string) {
+        super(space.game, x, y, key);
         this.jetpackOn = false;
-        this.jetpack = game.add.sound("jetpack", 0.5, true);
+        this.jetpack = space.game.add.sound("jetpack", 0.5, true);
         this.jetpack.allowMultiple = false;
         this.jetpack.addMarker("jetpack-start", 0, 0.5, 0.5, false);
         this.jetpack.addMarker("jetpack-loop", 0.5, 1, 0.5, true);
 
         this.cursors = new SimpleCursor(this.game);
-        game.physics.arcade.enable(this);
+        space.game.physics.arcade.enable(this);
         this.body.gravity.y = 300;
         this.body.collideWorldBounds = true;
         this.body.bounce.y = 0.5;
 
         this.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7], 10, true);
         this.animations.add('right', [8, 9, 10, 11, 12, 13, 14, 15], 10, true);
-        this.animations.add('air-left', [16, 17, 18, 19, 20, 21], 10, true);
-        this.animations.add('air-right', [22, 23, 24, 25, 26, 27], 10, true);
-        
-        game.add.existing(this);
+        this.animations.add('air-left', [17, 18, 19, 20, 21], 10, true);
+        this.animations.add('air-right', [23, 24, 25, 26, 27], 10, true);
+
+        space.game.add.existing(this);
     }
 
     update() {
+        if (this.alive) {
+            this.move();
+        }
+    }
+
+    move() {
+        this.space.physics.arcade.collide(this, this.space.platforms);
+
         if (this.body.touching.down) {
             if (this.cursors.left) {
                 this.body.velocity.x = -150;
