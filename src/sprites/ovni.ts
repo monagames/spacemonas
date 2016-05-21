@@ -3,8 +3,8 @@ import {Space} from "src/phases/space";
 
 export class Ovni extends ph.Sprite {
 
-    constructor(private space: Space, x: number, y: number, key?: string) {
-        super(space.game, x, y, key);
+    constructor(private space: Space, x: number, y: number) {
+        super(space.game, x, y, "ufo");
         space.game.physics.arcade.enable(this);
         this.body.gravity.y = 150;
         this.body.collideWorldBounds = true;
