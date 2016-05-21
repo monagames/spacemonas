@@ -5,7 +5,7 @@ export class Loader extends ph.State {
 
     started: boolean;
     loading: ph.Sprite;
-    startSprite: ph.Sprite;
+    startSprite: ph.Text;
 
     preload() {
         this.started = false;
@@ -34,7 +34,9 @@ export class Loader extends ph.State {
 
     create() {
         this.loading.destroy();
-        this.startSprite = this.add.sprite(this.game.width / 2, this.game.height * 0.7, "start");
+        this.startSprite = this.add.text(this.game.width / 2, this.game.height * 0.7, "START", { fontSize: '64px', fill: '#FDF', align: "right" });
+        this.startSprite.setShadow(5,5);
+        this.startSprite.font = "moonhouseregular";
         this.startSprite.anchor.x = 0.5;
         this.startSprite.anchor.y = 0.5;
         this.startSprite.inputEnabled = true;
