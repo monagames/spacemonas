@@ -1,4 +1,5 @@
 import {Phaser as ph} from "phaser";
+import "phaser/filters/pixi/Plasma";
 
 export class Loader extends ph.State {
 
@@ -29,7 +30,6 @@ export class Loader extends ph.State {
         this.load.audio("space-monas", "assets/space-monas.mp3");
         this.load.audio("silence", "assets/silence.mp3");
         this.load.audio("jetpack", "assets/jetpack.mp3");
-
     }
 
     create() {

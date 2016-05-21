@@ -8,7 +8,6 @@ System.config({
   paths: {
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
-//    "src/*": "src/*.ts"
   },
 
   packages: {
@@ -22,6 +21,7 @@ System.config({
     "ts": "github:frankwallis/plugin-typescript@4.0.8",
     "ts-runtime": "npm:babel-runtime@5.8.38",
     "typescript": "npm:typescript@1.8.10",
+    "webfont": "github:components/webfontloader@1.6.3",
     "github:frankwallis/plugin-typescript@4.0.8": {
       "typescript": "npm:typescript@1.8.10"
     },

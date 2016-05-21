@@ -1,6 +1,7 @@
 import {Phaser} from "phaser";
 import {Loader} from "./loader";
 import {Phase1} from "src/phases/phase1";
+import * as WebFont from "webfont";
 
 class Boot extends Phaser.State {
     init() {
@@ -27,6 +28,13 @@ class Boot extends Phaser.State {
 }
 
 function start() {
+    WebFont.load({
+        custom: {
+            families: ['moonhouseregular'],
+            urls: ['assets/fonts.css']
+        }
+    });
+
     (document.querySelector(".overlay") as any).style.display = "none";
     let game = new Phaser.Game(800, 600, Phaser.AUTO);
     game.state.add("boot", Boot);

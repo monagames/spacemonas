@@ -26,7 +26,8 @@ export abstract class Space extends ph.State {
         
         this.enemies = this.add.group();
         
-        this.textScore = this.add.text(this.world.width / 2, 16, "0", { fontSize: '32px', fill: '#FFF', align: "center" });
+        this.textScore = this.add.text(this.world.width * 7 / 8, 16, "0", {  fontSize: '32px', fill: '#FDF', align: "right" });
+        this.textScore.font = "moonhouseregular";
         
         let silence = this.add.audio("silence");
 
