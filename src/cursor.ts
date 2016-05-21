@@ -2,12 +2,12 @@ import {Phaser as ph} from "phaser";
 
 export class SimpleCursor {
     private cursors: ph.CursorKeys;
-    private game: ph.Game;
+    private _fire: ph.Key;
     private threshold = 0;
 
-    constructor(game: ph.Game) {
+    constructor(private game: ph.Game) {
         this.cursors = game.input.keyboard.createCursorKeys();
-        this.game = game;
+        this._fire = game.input.keyboard.addKey(ph.Keyboard.X);
     }
 
     get up() {
@@ -22,6 +22,10 @@ export class SimpleCursor {
     get right() {
         let p = this.leftPointer;
         return this.cursors.right.isDown || (p.isDown && (p.position.x - p.positionDown.x > this.threshold));
+    }
+    
+    get fire() {
+        return this._fire.justDown;
     }
 
     get leftPointer(): ph.Pointer {

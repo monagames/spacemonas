@@ -22,14 +22,14 @@ export class Loader extends ph.State {
         this.load.image('platform2', 'assets/platform 2.png');
         this.load.image('ufo', "assets/ufo.png");
         this.load.image('star', 'assets/star-sheet.png');
-
-        this.load.image('start', 'assets/start.png');
+        this.load.image("laser", "assets/laser.png");
 
         this.load.audio("get-star", "assets/key.mp3");
         this.load.audio("explosion", "assets/explosion.mp3");
         this.load.audio("space-monas", "assets/space-monas.mp3");
         this.load.audio("silence", "assets/silence.mp3");
         this.load.audio("jetpack", "assets/jetpack.mp3");
+        this.load.audio("laser", "assets/laser.wav");
     }
 
     create() {

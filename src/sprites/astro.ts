@@ -1,9 +1,11 @@
 import {Space} from "src/phases/space";
 import {Phaser as ph} from "phaser";
 import {SimpleCursor} from "../cursor";
+import {Laser} from "./laser";
 
 export class Astro extends ph.Sprite {
     private jetpackSound: ph.Sound;
+    private laserSound: ph.Sound;
     private jetpackOn: boolean;
     private cursors: SimpleCursor;
     private vaIzquierda: boolean;
@@ -18,19 +20,22 @@ export class Astro extends ph.Sprite {
         this.jetpackSound.addMarker("jetpack-start", 0, 0.5, 0.5, false);
         this.jetpackSound.addMarker("jetpack-loop", 0.5, 1, 0.5, true);
 
+        this.laserSound = space.game.add.sound("laser");
+
         this.cursors = new SimpleCursor(this.game);
         space.game.physics.arcade.enable(this);
-        this.body.gravity.y = 300;
-        this.body.collideWorldBounds = true;
-        this.body.bounce.y = 0.5;
+        let body = this.body as ph.Physics.Arcade.Body;
+        body.gravity.y = 300;
+        body.collideWorldBounds = true;
+        body.bounce.y = 0.5;
 
         this.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7], 10, true);
         this.animations.add('right', [8, 9, 10, 11, 12, 13, 14, 15], 10, true);
         this.animations.add('air-left', [17, 18, 19, 20, 21], 10, true);
         this.animations.add('air-right', [23, 24, 25, 26, 27], 10, true);
-        
+
         space.game.add.existing(this);
-        
+
         this.getPrizeSound = this.game.add.audio("get-star");
         this.explosionSound = this.game.add.audio("explosion");
 
@@ -48,7 +53,7 @@ export class Astro extends ph.Sprite {
         this.space.physics.arcade.collide(this, this.space.platforms);
         this.space.physics.arcade.overlap(this, this.space.enemies, this.die, null, this);
         this.space.physics.arcade.overlap(this, this.space.prizes, this.collectDiamond, null, this);
-        
+
 
         if (this.body.touching.down) {
             if (this.cursors.left) {
@@ -117,8 +122,24 @@ export class Astro extends ph.Sprite {
                 this.frame = this.vaIzquierda ? 16 : 22;
             }
         }
+
+        if (this.cursors.fire) {
+            this.shoot();
+        }
     }
-    
+
+    shoot() {
+        this.laserSound.play();
+        if (this.vaIzquierda) {
+            this.space.lasers.add(new Laser(this.space, this.x, this.y + this.height / 2, -500)).anchor.x = 1;            
+        }
+        else {
+            this.space.lasers.add(new Laser(this.space, this.x + this.width, this.y + this.height / 2, 500));
+        }
+        
+        this.space.game.debug.text(this.space.lasers.total.toString(), 200, 200, "#FFF");
+    }
+
     collectDiamond(player: ph.Sprite, diamond: ph.Sprite) {
         diamond.kill();
         this.space.score += 20;
@@ -132,6 +153,6 @@ export class Astro extends ph.Sprite {
         this.jetpackSound.fadeOut(1);
 
     }
-    
+
 
 }
