@@ -1,7 +1,7 @@
 import {Phaser as ph} from "phaser";
 import {Space} from "./space";
-import {Astro} from "src/astro";
-import {Ovni} from "src/enemies/ovni";
+import {Astro} from "src/sprites/astro";
+import {Ovni} from "src/sprites/ovni";
 
 let score: number = 0;
 let textScore: ph.Text;
@@ -14,14 +14,6 @@ export class Phase1 extends Space {
     constructor() {
         super();
     }
-
-    init() {
-        this.game.sound.boot();
-    }
-
-    preload() {
-    }
-
 
     create() {
         this.add.sprite(0, 0, "sky");

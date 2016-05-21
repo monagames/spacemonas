@@ -1,11 +1,13 @@
-import {Phaser} from "phaser";
+import {Phaser as ph} from "phaser";
 
-export class Loader extends Phaser.State {
+export class Loader extends ph.State {
 
-    loading: Phaser.Sprite;
-    startSprite: Phaser.Sprite;
+    started: boolean;
+    loading: ph.Sprite;
+    startSprite: ph.Sprite;
 
     preload() {
+        this.started = false;
         this.loading = this.add.sprite(this.game.width / 2, this.game.height * 0.7, "loading");
         this.loading.anchor.x = 0.5;
         this.loading.anchor.y = 0.5;
@@ -35,16 +37,23 @@ export class Loader extends Phaser.State {
         this.startSprite = this.add.sprite(this.game.width / 2, this.game.height * 0.7, "start");
         this.startSprite.anchor.x = 0.5;
         this.startSprite.anchor.y = 0.5;
-        this.startSprite.inputEnabled = true;     
-        this.startSprite.events.onInputDown.add(this.start, this);
+        this.startSprite.inputEnabled = true;
+        this.startSprite.events.onInputDown.addOnce(this.start, this);
+    }
+
+    update() {
+        if (this.input.keyboard.lastKey)
+            this.start();
     }
 
     start() {
-        this.add.audio("space-monas").play();
-        this.add.tween(this.startSprite.scale).to( { x: 0, y: 0 }, 500, "Linear", true );
-        let timer = this.time.create(true);
-        setTimeout(() => this.game.state.start("game"), 500);
-        //this.game.state.start("game");
+        if (!this.started) {
+            this.started = true;
+            this.add.audio("space-monas").play();
+            this.add.tween(this.startSprite.scale).to({ x: 0, y: 0 }, 1000, ph.Easing.Bounce.Out, true);
+            let timer = this.time.create(true);
+            setTimeout(() => this.game.state.start("game"), 500);
+        }
     }
 
 

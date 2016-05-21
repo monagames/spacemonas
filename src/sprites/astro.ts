@@ -1,6 +1,6 @@
 import {Space} from "src/phases/space";
 import {Phaser as ph} from "phaser";
-import {SimpleCursor} from "./cursor";
+import {SimpleCursor} from "../cursor";
 
 export class Astro extends ph.Sprite {
     private jetpack: ph.Sound;
