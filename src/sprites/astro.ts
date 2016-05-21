@@ -28,12 +28,14 @@ export class Astro extends ph.Sprite {
         this.animations.add('right', [8, 9, 10, 11, 12, 13, 14, 15], 10, true);
         this.animations.add('air-left', [17, 18, 19, 20, 21], 10, true);
         this.animations.add('air-right', [23, 24, 25, 26, 27], 10, true);
-
+        
         space.game.add.existing(this);
         
         this.getPrizeSound = this.game.add.audio("get-star");
         this.explosionSound = this.game.add.audio("explosion");
 
+        this.vaIzquierda = false;
+        this.frame = 22;
     }
 
     update() {
