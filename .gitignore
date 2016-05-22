@@ -4,4 +4,4 @@ build.*
 built
 typings
 !typings/phaser.d.ts
-
+.DS_Store

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "http-server",
-    "build": "jspm bundle src/main build.js --minify && cp build.js ../monagames.github.io/spacemonas && rm ../monagames.github.io/spacemonas/assets/* && cp assets/*.png assets/*.mp3 assets/*.jpg ../monagames.github.io/spacemonas/assets"
+    "start": "http-server www",
+    "build": "jspm bundle src/main www/build.js --minify"
   },
   "author": "",
   "license": "ISC",
