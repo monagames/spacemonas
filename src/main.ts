@@ -28,7 +28,12 @@ class Boot extends Phaser.State {
 }
 
 function start() {
-    document.addEventListener("deviceready", ondeviceReady, false);
+    if (!!(window as any).cordova) {
+        document.addEventListener("deviceready", ondeviceReady, false);
+    }
+    else {
+        ondeviceReady();
+    }
 }
 
 function ondeviceReady() {
