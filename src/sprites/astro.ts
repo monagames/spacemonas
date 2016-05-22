@@ -130,12 +130,17 @@ export class Astro extends ph.Sprite {
 
     shoot() {
         this.laserSound.play();
+        let laser;
         if (this.vaIzquierda) {
-            this.space.lasers.add(new Laser(this.space, this.x, this.y + this.height / 2, -1000)).anchor.x = 1;            
+            laser = new Laser(this.space, this.x, this.y + this.height / 2, -1000);
+            laser.anchor.x = 1;
         }
         else {
-            this.space.lasers.add(new Laser(this.space, this.x + this.width, this.y + this.height / 2,1000));
+            laser = new Laser(this.space, this.x + this.width, this.y + this.height / 2, 1000);
         }
+        
+        this.space.lasers.add(laser);
+
     }
 
     collectDiamond(player: ph.Sprite, diamond: ph.Sprite) {

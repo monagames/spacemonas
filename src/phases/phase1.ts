@@ -3,6 +3,7 @@ import {Space} from "./space";
 import {Astro} from "src/sprites/astro";
 import {Ovni} from "src/sprites/ovni";
 import {Prize} from "src/sprites/prize";
+//import {BrightFilter} from "src/filters/bright";
 
 export class Phase1 extends Space {
 
@@ -12,7 +13,11 @@ export class Phase1 extends Space {
 
     create() {
         // Fondo
-        this.add.sprite(0, 0, "sky");
+        let background = this.add.sprite(0, 0, "sky");
+        background.alpha = 0.5;
+        // let brightFilter = new BrightFilter(0.5);        
+        // background.filters = [brightFilter];     
+        // this.add.tween()   
         
         super.create();
         
