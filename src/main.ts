@@ -13,7 +13,7 @@ class Boot extends Phaser.State {
     }
 
     preload() {
-        this.load.image('intro', 'assets/intro.png');
+        this.load.image("intro", "assets/intro.png");
         this.load.image("loading", "assets/loading.png");
     }
 
@@ -39,10 +39,9 @@ function start() {
 function ondeviceReady() {
     WebFont.load({
         custom: {
-            families: ['moonhouseregular'],
-            urls: ['assets/fonts.css']
-        }
-    });
+            families: ["moonhouseregular"],
+            urls: ["assets/fonts.css"]
+        }});
 
     (document.querySelector(".overlay") as any).style.display = "none";
     let game = new Phaser.Game(800, 600, Phaser.AUTO);
