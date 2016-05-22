@@ -12,12 +12,8 @@ export class Phase1 extends Space {
     }
 
     create() {
-        // Fondo
         let background = this.add.sprite(0, 0, "sky");
         background.alpha = 0.5;
-        // let brightFilter = new BrightFilter(0.5);        
-        // background.filters = [brightFilter];     
-        // this.add.tween()   
         
         super.create();
         
