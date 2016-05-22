@@ -1,7 +1,9 @@
-node_modules
-jspm_packages
-build.*
-built
-typings
-!typings/phaser.d.ts
+/built
+/node_modules
+/jspm_packages
+/typings
+!/typings/phaser.d.ts
 .DS_Store
+/platforms
+/plugins
+/www/build.*

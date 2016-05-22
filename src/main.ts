@@ -28,6 +28,10 @@ class Boot extends Phaser.State {
 }
 
 function start() {
+    document.addEventListener("deviceready", ondeviceReady, false);
+}
+
+function ondeviceReady() {
     WebFont.load({
         custom: {
             families: ['moonhouseregular'],
