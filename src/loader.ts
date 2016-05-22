@@ -3,24 +3,23 @@ import {Phaser as ph} from "phaser";
 export class Loader extends ph.State {
 
     started: boolean;
-    loading: ph.Sprite;
+    loading: ph.Text;
     startSprite: ph.Text;
 
     preload() {
         this.started = false;
-        this.loading = this.add.sprite(this.game.width / 2, this.game.height * 0.7, "loading");
+        this.loading = this.add.text(this.game.width / 2, this.game.height * 0.7, "LOADING", { fontSize: "64px", fill: "#FDF", align: "right" });
         this.loading.anchor.x = 0.5;
         this.loading.anchor.y = 0.5;
-        //this.loading.tint = 0xff00ff;
         this.load.setPreloadSprite(this.loading);
 
-        this.load.image('ground', 'assets/platform.png');
-        this.load.image('diamond', 'assets/diamond.png');
-        this.load.spritesheet('astro', 'assets/astro.png', 32, 48);
-        this.load.image('sky', 'assets/space.jpg');
-        this.load.image('platform2', 'assets/platform 2.png');
-        this.load.image('ufo', "assets/ufo.png");
-        this.load.image('star', 'assets/star-sheet.png');
+        this.load.image("ground", "assets/platform.png");
+        this.load.image("diamond", "assets/diamond.png");
+        this.load.spritesheet("astro", "assets/astro.png", 32, 48);
+        this.load.image("sky", "assets/space.jpg");
+        this.load.image("platform2", "assets/platform 2.png");
+        this.load.image("ufo", "assets/ufo.png");
+        this.load.image("star", "assets/star-sheet.png");
         this.load.image("laser", "assets/laser.png");
 
         this.load.audio("get-star", "assets/key.mp3");
@@ -33,13 +32,15 @@ export class Loader extends ph.State {
 
     create() {
         this.loading.destroy();
-        this.startSprite = this.add.text(this.game.width / 2, this.game.height * 0.7, "START", { fontSize: '64px', fill: '#FDF', align: "right" });
-        this.startSprite.setShadow(5,5);
+        this.startSprite = this.add.text(this.game.width / 2, this.game.height * 0.7, "START", { fontSize: "64px", fill: "#FDF", align: "right" });
+        this.startSprite.setShadow(5, 5);
         this.startSprite.font = "moonhouseregular";
         this.startSprite.anchor.x = 0.5;
         this.startSprite.anchor.y = 0.5;
         this.startSprite.inputEnabled = true;
         this.startSprite.events.onInputDown.addOnce(this.start, this);
+
+        this.add.tween(this.startSprite.scale).to( { x: 1.25, y: 1.25 }, 500, "Sine", true, 0, -1, true);
     }
 
     update() {
