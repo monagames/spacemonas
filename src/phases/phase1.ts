@@ -1,4 +1,4 @@
-import {Phaser as ph} from "phaser";
+import ph from "phaser";
 import {Space} from "./space";
 import {Astro} from "src/sprites/astro";
 import {Ovni} from "src/sprites/ovni";

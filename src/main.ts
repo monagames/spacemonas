@@ -1,4 +1,4 @@
-import {Phaser} from "phaser";
+import Phaser from "phaser";
 import {Loader} from "./loader";
 import {Phase1} from "src/phases/phase1";
 import * as WebFont from "webfontloader";

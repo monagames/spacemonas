@@ -1,4 +1,4 @@
-import {Phaser as ph} from "phaser";
+import ph from "phaser";
 
 export class SimpleCursor {
     private cursors: ph.CursorKeys;

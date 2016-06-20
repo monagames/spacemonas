@@ -1,5 +1,5 @@
 import {Space} from "src/phases/space";
-import {Phaser as ph} from "phaser";
+import ph from "phaser";
 import {SimpleCursor} from "../cursor";
 import {Laser} from "./laser";
 
@@ -37,7 +37,7 @@ export class Astro extends ph.Sprite {
         space.game.add.existing(this);
 
         this.getPrizeSound = this.game.add.audio("get-star");
-        this.explosionSound = this.game.add.audio("explosion");
+        this.explosionSound = this.game.add.audio("aaah");
 
         this.vaIzquierda = false;
         this.frame = 22;
@@ -53,6 +53,8 @@ export class Astro extends ph.Sprite {
         this.space.physics.arcade.collide(this, this.space.platforms);
         this.space.physics.arcade.overlap(this, this.space.enemies, this.die, null, this);
         this.space.physics.arcade.overlap(this, this.space.prizes, this.collectDiamond, null, this);
+
+        let body = this.body as ph.Physics.Arcade.Body;
 
 
         if (this.body.touching.down) {
@@ -152,8 +154,9 @@ export class Astro extends ph.Sprite {
     die(player: ph.Sprite, ufo: ph.Sprite) {
         player.alive = false;
         player.kill();
-        this.explosionSound.play(undefined, 0.5);
-        this.jetpackSound.fadeOut(1);
+        this.jetpackSound.fadeOut(100);
+        this.jetpackSound.onStop.removeAll();
+        this.explosionSound.play();
 
     }
 

@@ -17,12 +17,12 @@ System.config({
   },
 
   map: {
-    "phaser": "github:photonstorm/phaser@2.4.8",
-    "ts": "github:frankwallis/plugin-typescript@4.0.8",
+    "phaser": "github:photonstorm/phaser@2.5.0",
+    "ts": "github:frankwallis/plugin-typescript@4.0.16",
     "ts-runtime": "npm:babel-runtime@5.8.38",
     "typescript": "npm:typescript@1.8.10",
     "webfontloader": "github:components/webfontloader@1.6.3",
-    "github:frankwallis/plugin-typescript@4.0.8": {
+    "github:frankwallis/plugin-typescript@4.0.16": {
       "typescript": "npm:typescript@1.8.10"
     },
     "github:jspm/nodelibs-assert@0.1.0": {

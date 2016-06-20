@@ -1,4 +1,4 @@
-import {Phaser as ph} from "phaser";
+import ph from "phaser";
 import {Space} from "src/phases/space";
 
 export class Prize extends ph.Sprite {

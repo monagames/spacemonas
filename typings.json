@@ -1,5 +1,8 @@
 {
   "globalDevDependencies": {
     "webfontloader": "registry:dt/webfontloader#1.6.4+20160317120654"
+  },
+  "globalDependencies": {
+    "phaser": "github:monagames/phaser/typescript/typings.json#cf460bf"
   }
 }

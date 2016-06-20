@@ -1,10 +1,14 @@
-import {Phaser as ph} from "phaser";
+import ph from "phaser";
 
 export class Loader extends ph.State {
 
     started: boolean;
     loading: ph.Text;
     startSprite: ph.Text;
+
+    init() {
+        this.sound.boot();
+    }
 
     preload() {
         this.started = false;
@@ -28,6 +32,7 @@ export class Loader extends ph.State {
         this.load.audio("silence", "assets/silence.mp3");
         this.load.audio("jetpack", "assets/jetpack.mp3");
         this.load.audio("laser", "assets/laser.wav");
+        this.load.audio("aaah", "assets/aaah.mp3");
     }
 
     create() {
@@ -50,9 +55,9 @@ export class Loader extends ph.State {
 
     start() {
         if (!this.started) {
-            this.started = true;
-            this.add.audio("space-monas").play();
+            this.started = true;            
             this.add.tween(this.startSprite.scale).to({ x: 0, y: 0 }, 1000, ph.Easing.Bounce.Out, true);
+            this.add.audio("space-monas").play();
             let timer = this.time.create(true);
             setTimeout(() => this.game.state.start("game"), 500);
         }
