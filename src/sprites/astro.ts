@@ -11,6 +11,7 @@ export class Astro extends ph.Sprite {
     private vaIzquierda: boolean;
     private getPrizeSound: ph.Sound;
     private explosionSound: ph.Sound;
+    private emitter: ph.Particles.Arcade.Emitter;
 
     constructor(private space: Space, x: number, y: number) {
         super(space.game, x, y, "astro");
@@ -41,19 +42,46 @@ export class Astro extends ph.Sprite {
 
         this.vaIzquierda = false;
         this.frame = 22;
+
+        this.addEmitter();
+
+        this.anchor.x = 0.5;
+        this.anchor.y = 1;
+    }
+
+    addEmitter() {
+        let smokeParticle = this.space.make.bitmapData(11, 11);
+        smokeParticle.circle(5, 5, 5, "#555555");
+        smokeParticle.update();
+
+        this.emitter = this.space.add.emitter(this.x, this.y, 100);
+        this.emitter.setSize(10, 5);
+        this.emitter.gravity = -1;
+        this.emitter.setRotation();
+        this.emitter.particleAnchor.set(0);
+        this.emitter.setXSpeed(-50, 50);
+        this.emitter.setYSpeed(50, 100);
+        this.emitter.makeParticles(smokeParticle);
+        this.emitter.alpha = 0.5;
+        //this.emitter.setScale()
+        this.emitter.gravity = -100;
+        this.emitter.flow(500, 20, 2, -1, true);
+        this.emitter.on = false;
+
     }
 
     update() {
         if (this.alive) {
-            this.move();
+            this.space.physics.arcade.collide(this, this.space.platforms);
+            this.space.physics.arcade.overlap(this, this.space.enemies, this.die, null, this);
+            this.space.physics.arcade.overlap(this, this.space.prizes, this.collectDiamond, null, this);
+            
+            if (this.alive)
+                this.move();
         }
     }
 
     move() {
-        this.space.physics.arcade.collide(this, this.space.platforms);
-        this.space.physics.arcade.overlap(this, this.space.enemies, this.die, null, this);
-        this.space.physics.arcade.overlap(this, this.space.prizes, this.collectDiamond, null, this);
-
         let body = this.body as ph.Physics.Arcade.Body;
 
 
@@ -100,6 +128,11 @@ export class Astro extends ph.Sprite {
         }
 
         if (this.cursors.up) {
+
+            this.emitter.y = this.y - 10;
+            this.emitter.x = this.x + 10 * (this.vaIzquierda ? +1 : -1);
+            this.emitter.on = true;
+
             if (!this.jetpackOn) {
                 this.jetpackOn = true;
                 this.jetpackSound.play("jetpack-start").onStop.addOnce(() => {
@@ -117,12 +150,7 @@ export class Astro extends ph.Sprite {
 
         }
         else {
-            if (this.jetpackOn) {
-                this.jetpackOn = false;
-                this.jetpackSound.fadeOut(0.25);
-                this.animations.stop();
-                this.frame = this.vaIzquierda ? 16 : 22;
-            }
+            this.stopJetPack();
         }
 
         if (this.cursors.fire) {
@@ -130,19 +158,29 @@ export class Astro extends ph.Sprite {
         }
     }
 
+    stopJetPack() {
+        if (this.jetpackOn) {
+            this.jetpackOn = false;
+            this.jetpackSound.fadeOut(0.25);
+            this.jetpackSound.onStop.removeAll();
+
+            this.animations.stop();
+            this.frame = this.vaIzquierda ? 16 : 22;
+            this.emitter.on = false;
+
+            //this.jetpackSound.fadeOut(100);
+
+        }
+
+    }
+
     shoot() {
         this.laserSound.play();
-        let laser;
-        if (this.vaIzquierda) {
-            laser = new Laser(this.space, this.x, this.y + this.height / 2, -1000);
-            laser.anchor.x = 1;
-        }
-        else {
-            laser = new Laser(this.space, this.x + this.width, this.y + this.height / 2, 1000);
-        }
-        
-        this.space.lasers.add(laser);
+        let sentido = this.vaIzquierda ? -1 : 1;
+        let laser = new Laser(this.space, this.x + this.width * sentido / 2, this.y - this.height / 2, 1000 * sentido);
+        laser.anchor.x = 0.5;
 
+        this.space.lasers.add(laser);
     }
 
     collectDiamond(player: ph.Sprite, diamond: ph.Sprite) {
@@ -151,13 +189,11 @@ export class Astro extends ph.Sprite {
         this.getPrizeSound.play();
     }
 
-    die(player: ph.Sprite, ufo: ph.Sprite) {
-        player.alive = false;
-        player.kill();
-        this.jetpackSound.fadeOut(100);
-        this.jetpackSound.onStop.removeAll();
+    die(player: Astro, ufo: ph.Sprite) {
+        this.alive = false;
+        this.stopJetPack();
         this.explosionSound.play();
-
+        this.kill();
     }
 
 
