@@ -7,8 +7,15 @@ import {Prize} from "src/sprites/prize";
 
 export class Phase1 extends Space {
 
+    private timer: ph.Timer;
+    private releaseEnemyInterval: number;
+
     constructor() {
         super();
+    }
+
+    init() {
+        this.timer = this.time.create(false);        
     }
 
     create() {
@@ -32,13 +39,20 @@ export class Phase1 extends Space {
         this.player = new Astro(this, 32, this.world.height - 150);
         
         // Enemigos
-        this.enemies.add(new Ovni(this, this.world.width - 150, 150));
+        this.timer.add(1000, this.addEnemy, this);
+        this.timer.start();
 
         // Premios
         for (let i = 0; i < 12; i++) {
             this.prizes.add(new Prize(this, i* 70, 0));
         }
 
+    }
+
+    addEnemy() {
+        if (this.enemies.countLiving() < 10)
+            this.enemies.add(new Ovni(this, this.world.width - 150, 150));
+        this.timer.add(1000, this.addEnemy, this);        
     }
 }
 

@@ -11,7 +11,7 @@ export class Astro extends ph.Sprite {
     private vaIzquierda: boolean;
     private getPrizeSound: ph.Sound;
     private explosionSound: ph.Sound;
-    private emitter: ph.Particles.Arcade.Emitter;
+    private smokeEmitter: ph.Particles.Arcade.Emitter;
 
     constructor(private space: Space, x: number, y: number) {
         super(space.game, x, y, "astro");
@@ -43,31 +43,30 @@ export class Astro extends ph.Sprite {
         this.vaIzquierda = false;
         this.frame = 22;
 
-        this.addEmitter();
+        this.addSmokeEmitter();
 
         this.anchor.x = 0.5;
         this.anchor.y = 1;
     }
 
-    addEmitter() {
+    addSmokeEmitter() {
+        let lifespan = 500;
         let smokeParticle = this.space.make.bitmapData(11, 11);
         smokeParticle.circle(5, 5, 5, "#555555");
         smokeParticle.update();
 
-        this.emitter = this.space.add.emitter(this.x, this.y, 100);
-        this.emitter.setSize(10, 5);
-        this.emitter.gravity = -1;
-        this.emitter.setRotation();
-        this.emitter.particleAnchor.set(0);
-        this.emitter.setXSpeed(-50, 50);
-        this.emitter.setYSpeed(50, 100);
-        this.emitter.makeParticles(smokeParticle);
-        this.emitter.alpha = 0.5;
-        //this.emitter.setScale()
-        this.emitter.gravity = -100;
-        this.emitter.flow(500, 20, 2, -1, true);
-        this.emitter.on = false;
-
+        this.smokeEmitter = this.space.add.emitter(this.x, this.y, 100);
+        this.smokeEmitter.setSize(10, 5);
+        this.smokeEmitter.setRotation();
+        this.smokeEmitter.particleAnchor.set(0);
+        this.smokeEmitter.setXSpeed(-50, 50);
+        this.smokeEmitter.setYSpeed(50, 100);
+        this.smokeEmitter.makeParticles(smokeParticle);
+        this.smokeEmitter.setAlpha(0.8, 0, lifespan, Phaser.Easing.Linear.None);
+        this.smokeEmitter.setScale(0.5, 2, 0.5, 2, lifespan, Phaser.Easing.Linear.None);
+        this.smokeEmitter.gravity = -100;
+        this.smokeEmitter.flow(lifespan, 20, 2, -1, true);
+        this.smokeEmitter.on = false;
     }
 
     update() {
@@ -84,7 +83,6 @@ export class Astro extends ph.Sprite {
     move() {
         let body = this.body as ph.Physics.Arcade.Body;
 
-
         if (this.body.touching.down) {
             if (this.cursors.left) {
                 this.body.velocity.x = -150;
@@ -97,7 +95,7 @@ export class Astro extends ph.Sprite {
                 this.animations.play("right");
             }
             else {
-                this.body.velocity.x = 0;
+                body.velocity.x = 0;
                 this.animations.stop();
                 if (this.vaIzquierda)
                     this.frame = 0;
@@ -129,9 +127,9 @@ export class Astro extends ph.Sprite {
 
         if (this.cursors.up) {
 
-            this.emitter.y = this.y - 10;
-            this.emitter.x = this.x + 10 * (this.vaIzquierda ? +1 : -1);
-            this.emitter.on = true;
+            this.smokeEmitter.y = this.y - 10;
+            this.smokeEmitter.x = this.x + 10 * (this.vaIzquierda ? +1 : -1);
+            this.smokeEmitter.on = true;
 
             if (!this.jetpackOn) {
                 this.jetpackOn = true;
@@ -166,10 +164,9 @@ export class Astro extends ph.Sprite {
 
             this.animations.stop();
             this.frame = this.vaIzquierda ? 16 : 22;
-            this.emitter.on = false;
+            this.smokeEmitter.on = false;
 
             //this.jetpackSound.fadeOut(100);
-
         }
 
     }
@@ -179,6 +176,10 @@ export class Astro extends ph.Sprite {
         let sentido = this.vaIzquierda ? -1 : 1;
         let laser = new Laser(this.space, this.x + this.width * sentido / 2, this.y - this.height / 2, 1000 * sentido);
         laser.anchor.x = 0.5;
+        let body = this.body as ph.Physics.Arcade.Body;
+        // Retroceso
+        body.velocity.x -= sentido * 50;
+            
 
         this.space.lasers.add(laser);
     }
