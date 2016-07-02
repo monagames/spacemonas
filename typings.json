@@ -1,9 +1,6 @@
 {
   "globalDevDependencies": {
-    "phaser": "github:photonstorm/phaser/typescript/typings.json#8c5cea066ab007c8b78f1afce923b96fc27353f5",
     "webfontloader": "registry:dt/webfontloader#1.6.4+20160317120654"
   },
-  "globalDependencies": {
-    "phaser": "github:monagames/phaser/typescript/typings.json#cf460bf"
-  }
+  "globalDependencies": {}
 }
