@@ -12,11 +12,12 @@
   "license": "ISC",
   "devDependencies": {
     "jspm": "^0.16.34",
+    "phaser": "^2.6.1",
     "typings": "^0.8.1"
   },
   "jspm": {
     "dependencies": {
-      "phaser": "github:photonstorm/phaser@^2.5.0",
+      "phaser": "github:photonstorm/phaser@^2.6.1",
       "ts": "github:frankwallis/plugin-typescript@^4.0.16",
       "webfontloader": "github:components/webfontloader@^1.6.3"
     },

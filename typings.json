@@ -1,6 +1,8 @@
 {
   "globalDevDependencies": {
+    "phaser": "github:photonstorm/phaser/typescript/typings.json",
     "webfontloader": "registry:dt/webfontloader#1.6.4+20160317120654"
   },
-  "globalDependencies": {}
+  "globalDependencies": {},
+  "devDependencies": {}
 }
