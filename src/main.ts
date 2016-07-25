@@ -43,7 +43,7 @@ function ondeviceReady() {
         }});
 
     (document.querySelector(".overlay") as any).style.display = "none";
-    let game = new Phaser.Game(800, 600, Phaser.AUTO);
+    let game = new Phaser.Game(800, 700, Phaser.AUTO);
     game.state.add("boot", Boot);
     game.state.add("loader", Loader);
     game.state.add("game", Phase1);

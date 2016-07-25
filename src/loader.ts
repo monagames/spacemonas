@@ -22,6 +22,7 @@ export class Loader extends ph.State {
         this.load.image("ground", "platform.png");
         this.load.image("diamond", "diamond.png");
         this.load.spritesheet("astro", "astro.png", 32, 48);
+        this.load.spritesheet("cursors", "keys.png", 128,96);
         this.load.image("sky", "space.jpg");
         this.load.image("platform2", "platform 2.png");
         this.load.image("ufo", "ufo.png");

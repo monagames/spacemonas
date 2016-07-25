@@ -25,9 +25,11 @@ export class Phase1 extends Space {
         super.create();
         
         // Suelo
-        let ground = this.platforms.create(0, this.world.height - 64, "platform2");
+        let ground = this.platforms.create(0, 600 - 64, "platform2");
         ground.scale.setTo(2, 2);
         ground.body.immovable = true;
+
+
 
         // Plataformas
         let ledge1 = this.platforms.create(400, 400, 'ground');
@@ -36,7 +38,7 @@ export class Phase1 extends Space {
         ledge1.body.immovable = true;
         
         // Jugador
-        this.player = new Astro(this, 32, this.world.height - 150);
+        this.player = new Astro(this, 32, 600 - 150);
         
         // Enemigos
         this.timer.add(1000, this.addEnemy, this);

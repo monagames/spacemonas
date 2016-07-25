@@ -36,7 +36,6 @@ export abstract class Space extends ph.State {
 
         this.game.sound.volume = 10;
         this.game.input.onDown.addOnce(() => silence.play());
-
     }
 
     get score() { return this._score; }
