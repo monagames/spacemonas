@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jspm": "^0.5.13",
     "jspm": "^0.16.34",
     "phaser": "^2.6.1",
     "typings": "^0.8.1"
@@ -18,7 +20,7 @@
   "jspm": {
     "dependencies": {
       "phaser": "github:photonstorm/phaser@^2.6.1",
-      "ts": "github:frankwallis/plugin-typescript@^4.0.16",
+      "ts": "github:frankwallis/plugin-typescript@^5.2.7",
       "webfontloader": "github:components/webfontloader@^1.6.3"
     },
     "devDependencies": {
